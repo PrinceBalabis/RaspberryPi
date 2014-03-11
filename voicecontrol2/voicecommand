@@ -1,0 +1,23 @@
+#! /bin/sh
+# /etc/init.d/voicecommand
+
+# The following part always gets executed.
+echo "This part always gets executed"
+
+# The following part carries out specific functions depending on arguments.
+case "$1" in
+  start)
+    echo "Starting voicecommand"
+    echo "voicecommand is alive"
+    ;;
+  stop)
+    echo "Stopping voicecommand"
+    echo "voicecommand is dead"
+    ;;
+  *)
+    echo "Usage: /etc/init.d/voicecommand {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0

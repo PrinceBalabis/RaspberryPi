@@ -17,7 +17,9 @@ First you have to install the [wiringpi](https://projects.drogon.net/raspberry-p
 	* ./build
 
 ## 2. 
-Connect the 433 Mhz Transmitter to GPIO pin 17/0
+Connect the 433 Mhz Transmitter input to GPIO pin 17/0 on the Raspberry Pi
+See pinconnection433mhz.jpg for a picture
+433 Mhz Transmitter datasheet: http://www.kjell.com/.mvc/Document/File?id=04afb93b-c6ad-48d1-ba12-a22c0175e289
 
 ## 3. RCSwitch-Pi
 git clone https://github.com/PrinceBalabis/RaspberryPi

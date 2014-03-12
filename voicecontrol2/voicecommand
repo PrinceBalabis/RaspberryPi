@@ -1,0 +1,29 @@
+# Settings
+!response==Yes Sir?
+!quiet==0
+!filler==0
+!duration==2
+!com_dur==2
+!hardware==plughw:1,0
+!verify==1
+!keyword==pi
+!continuous==1
+!ignore==1
+!filler==0
+!continuous==1
+#!api==9A682A-HT655T446V
+#!maxResponse==2
+!thresh==0.01
+# Social commands
+hi==curl --data-binary '{ "jsonrpc": "2.0", "method": "GUI.ShowNotification", "params":{"title":"J.A.R.V.I.S.","message":"Hi"},"id":1 }' -H 'content-type: application/json;' http://balabis:balabis1234@127.0.0.1:9453/jsonrpc && tts 'Well hello Prince.' 2>/dev/null
+# 433 Mhz switches commands
+bar on==/root/RaspberryPi/voicecontrol2/barlights_on.sh
+far on==/root/RaspberryPi/voicecontrol2/barlights_on.sh
+bar of==/root/RaspberryPi/voicecontrol2/barlights_off.sh
+far of==/root/RaspberryPi/voicecontrol2/barlights_off.sh
+walls on==/root/RaspberryPi/voicecontrol2/wallpaintings_on.sh
+walls of==/root/RaspberryPi/voicecontrol2/wallpaintings_off.sh
+lights on==/root/RaspberryPi/voicecontrol2/alllights_on.sh
+life on==/root/RaspberryPi/voicecontrol2/alllights_on.sh
+lights of==/root/RaspberryPi/voicecontrol2/alllights_off.sh
+life of==/root/RaspberryPi/voicecontrol2/alllights_on.sh

@@ -30,7 +30,7 @@ git clone https://github.com/PrinceBalabis/RaspberryPi
 RaspberryPi/433mhz/send {Unit Code Value}
 example: RaspberryPi/433mhz/send 5510485
 
-## Group 1 Unit Code Values:
+## Group 4 Unit Code Values:
 Channel | On | Off
 --- | --- | ---
 1| 5510485 | 5510484

@@ -1,3 +1,6 @@
+This is used in a project from princetronics.com
+http://www.princetronics.com/voice-controlling-wireless-switches-using-raspberry-pi/
+
 # About
 This is a fork from rcswitch-pi: https://github.com/r10r/rcswitch-pi
 

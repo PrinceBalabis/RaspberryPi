@@ -29,12 +29,21 @@ const uint16_t this_node = 02;
 
 // Address of the other node
 const uint16_t mainLights = 00;
-const int32_t cmdLights = 01;
+int32_t cmdLights = 01; // default command is to toggle lights
 
 int main(int argc, char** argv) 
 {
-	// Refer to RF24.h or nRF24L01 DS for settings
+	// Shell argument action
+	int temp;
+	if (1==sscanf(argv[1], "%d", &temp))
+    	{
+		cmdLights = temp; // Ready  input command for sending
+	}
+	else {
+   	       printf("Couldn't understand input!");
+ 	}
 
+	// Refer to RF24.h or nRF24L01 DS for settings
 	radio.begin();
 	
 	delay(5);
@@ -47,11 +56,11 @@ int main(int argc, char** argv)
 
 		network.update();
 
-    			printf("Sending ..\n");
+    			printf("Sending ..");
 		        RF24NetworkHeader header(/*to node*/ mainLights);
 			bool ok = network.write(header,&cmdLights,sizeof(cmdLights));
 		        if (ok){
-		        	printf("ok.\n");
+		        	printf("ok.\n\n");
 		        }else{ 
       				printf("failed.\n");
   			}

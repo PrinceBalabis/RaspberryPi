@@ -45,10 +45,10 @@ class S(BaseHTTPRequestHandler):
 	returnmessage = "Didn't understand command!"
 	if post_data[76] == 'x':
                 returnmessage = "You just exited the iBeacon area!"	
-		action = "./SendLightTurnOnCommand"
+		action = "./sendRF24Command 03"
 	elif post_data[76] == 'n':
 	        returnmessage = "You just entered the iBeacon area!"			
-                action = "./SendLightTurnOnCommand"
+                action = "./sendRF24Command 02"
 
 	#Print action feedback
 	self.wfile.write("<html><body><h1>"+returnmessage+"</h1></body></html>")

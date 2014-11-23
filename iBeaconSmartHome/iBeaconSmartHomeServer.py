@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 """
+Most of this code comes from aweinstein, THANK YOU
+https://github.com/aweinstein/scrapcode/blob/master/post_server/server.py
+
 Very simple HTTP server in python.
 
 Usage::
@@ -27,24 +30,40 @@ class S(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self._set_headers()
-        self.wfile.write("<html><body><h1>hi!</h1></body></html>")
-	def main():
-    		os.system("sh hello.sh")
-	if __name__=="__main__":
-		main()	
+        self.wfile.write("<html><body><h1>Hi! You just ran homeautomation!</h1></body></html>")
 
     def do_HEAD(self):
         self._set_headers()
         
     def do_POST(self):
-        # Doesn't do anything with posted data
         self._set_headers()
-        self.wfile.write("<html><body><h1>POST!</h1></body></html>")
-        
+	content_length = int(self.headers['Content-Length'])
+	post_data = self.rfile.read(content_length)
+
+	#Check if you are entering or exiting the iBeacon area
+	action = "Didn't understand command!"
+	returnmessage = "Didn't understand command!"
+	if post_data[76] == 'x':
+                returnmessage = "You just exited the iBeacon area!"	
+		action = "./SendLightTurnOnCommand"
+	elif post_data[76] == 'n':
+	        returnmessage = "You just entered the iBeacon area!"			
+                action = "./SendLightTurnOnCommand"
+
+	#Print action feedback
+	self.wfile.write("<html><body><h1>"+returnmessage+"</h1></body></html>")
+	print returnmessage
+
+	#Run shell command
+	def main():
+                os.system(action)
+        if __name__=="__main__":
+                main()
+
 def run(server_class=HTTPServer, handler_class=S, port=4050):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
-    print 'Starting httpd...'
+    print 'Started iBeacon Smart Home Server'
     httpd.serve_forever()
 
 if __name__ == "__main__":

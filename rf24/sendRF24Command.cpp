@@ -7,7 +7,9 @@
 #include <time.h>
 
 /**
- * g++ -L/usr/lib main.cc -I/usr/include -o main -lrrd
+ * Usage:
+ * ./sendRF24Command {commandToSend}
+ * example ./sendRF24Command 01
  **/
 using namespace std;
 

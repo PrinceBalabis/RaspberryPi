@@ -1,3 +1,7 @@
-Compile using:
-
-g++ -Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s -Wall -I../libraries/NRF24NetworkPi -lrf24-bcm -lrf24network sendRF24Command.cpp -o sendRF24Command
+Make server launch at boot:
+chmod 755 launcher.sh
+cd
+mkdir logs
+sudo crontab -e
+	@reboot sh /root/RaspberryPi/smarthome/launcher.sh >/root/logs/cronlog 2>&1
+sudo reboot

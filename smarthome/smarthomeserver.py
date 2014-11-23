@@ -3,20 +3,12 @@
 Most of this code comes from aweinstein, THANK YOU
 https://github.com/aweinstein/scrapcode/blob/master/post_server/server.py
 
+
 Very simple HTTP server in python.
 
 Usage::
-    ./dummy-web-server.py [<port>]
-
-Send a GET request::
-    curl http://localhost
-
-Send a HEAD request::
-    curl -I http://localhost
-
-Send a POST request::
-    curl -d "foo=bar&bin=baz" http://localhost
-
+    sudo python smarthomeserver.py [<port>]
+    or sudo python smarthomeserver.py
 """
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
@@ -28,12 +20,12 @@ class S(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/html')
         self.end_headers()
 
-    def do_GET(self):
-        self._set_headers()
-        self.wfile.write("<html><body><h1>Hi! You just ran homeautomation!</h1></body></html>")
+#    def do_GET(self):
+#        self._set_headers()
+#        self.wfile.write("<html><body><h1>Hi! You just ran homeautomation!</h1></body></html>")
 
-    def do_HEAD(self):
-        self._set_headers()
+#    def do_HEAD(self):
+#        self._set_headers()
         
     def do_POST(self):
         self._set_headers()
@@ -56,7 +48,7 @@ class S(BaseHTTPRequestHandler):
 
 	#Run shell command
 	def main():
-                os.system(action)
+                os.system("../rf24/"+action)
         if __name__=="__main__":
                 main()
 

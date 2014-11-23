@@ -1,7 +1,20 @@
+/*
+ Update 2014 - TMRh20
+ */
+
+/**
+ * Simplest possible example of using RF24Network,
+ *
+ * RECEIVER NODE
+ * Listens for messages from the transmitter and prints them out.
+ */
+
+
+
 #include <cstdlib>
 #include <iostream>
-#include "../libraries/RF24/RF24.h"
-#include "../libraries/RF24NetworkPi/RF24Network.h"
+#include <RF24/RF24.h>
+#include <RF24Network/RF24Network.h>
 #include <ctime>
 #include <stdio.h>
 #include <time.h>
@@ -25,11 +38,21 @@ RF24 radio(RPI_V2_GPIO_P1_15, BCM2835_SPI_CS0, BCM2835_SPI_SPEED_8MHZ);
 RF24Network network(radio);
 
 // Address of our node in Octal format (01,021, etc)
-const uint16_t this_node = 02;
+const uint16_t this_node = 01;
 
 // Address of the other node
-const uint16_t mainLights = 00;
-const int32_t cmdLights = 01;
+const uint16_t other_node = 00;
+
+const unsigned long interval = 2000; //ms  // How often to send 'hello world to the other unit
+
+unsigned long last_sent;             // When did we last send?
+unsigned long packets_sent;          // How many have we sent already
+
+
+struct payload_t {                  // Structure of our payload
+  unsigned long ms;
+  unsigned long counter;
+};
 
 int main(int argc, char** argv) 
 {
@@ -39,22 +62,26 @@ int main(int argc, char** argv)
 	
 	delay(5);
 	network.begin(/*channel*/ 90, /*node address*/ this_node);
-	radio.setRetries(5,15);
-	radio.setPALevel(RF24_PA_HIGH);
-	radio.setDataRate(RF24_250KBPS);
 	radio.printDetails();
 	
+	while(1){
 
 		network.update();
+		unsigned long now = millis();              // If it's time to send a message, send it!
+		if ( now - last_sent >= interval  ){
+    			last_sent = now;
 
     			printf("Sending ..\n");
-		        RF24NetworkHeader header(/*to node*/ mainLights);
-			bool ok = network.write(header,&cmdLights,sizeof(cmdLights));
+			payload_t payload = { millis(), packets_sent++ };
+		        RF24NetworkHeader header(/*to node*/ other_node);
+			bool ok = network.write(header,&payload,sizeof(payload));
 		        if (ok){
 		        	printf("ok.\n");
 		        }else{ 
       				printf("failed.\n");
   			}
+		}
+	}
 
 	return 0;
 

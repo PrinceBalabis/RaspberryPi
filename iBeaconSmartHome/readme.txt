@@ -1,0 +1,3 @@
+Compile using:
+
+g++ -Ofast -mfpu=vfp -mfloat-abi=hard -march=armv6zk -mtune=arm1176jzf-s -Wall -I../libraries/NRF24NetworkPi -lrf24-bcm -lrf24network SOURCEFILE.cpp -o COMPILEDFILENAME

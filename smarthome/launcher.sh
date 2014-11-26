@@ -2,5 +2,5 @@
 
 cd /
 cd root/RaspberryPi/smarthome
-sudo python smarthomeserver.py &
+sudo ./smarthomeserver.py &
 cd /

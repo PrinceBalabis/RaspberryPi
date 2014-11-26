@@ -4,7 +4,8 @@ Most of this code comes from aweinstein, THANK YOU
 https://github.com/aweinstein/scrapcode/blob/master/post_server/server.py
 
 
-Very simple HTTP server in python.
+Very simple HTTP server in python. It toggles an LED either on or off
+when it gets specific POST message
 
 Usage::
     sudo python smarthomeserver.py [<port>]
@@ -12,7 +13,8 @@ Usage::
 """
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
-import os
+#import os ## Import library to run shell commands
+import RPi.GPIO as GPIO ## Import GPIO library
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -37,25 +39,32 @@ class S(BaseHTTPRequestHandler):
 	returnmessage = "Didn't understand command!"
 	if post_data[76] == 'x':
                 returnmessage = "You just exited the iBeacon area!"	
-		action = "./sendRF24Command 03"
+		#action = "03"
+		GPIO.output(7,False) ## Turn off GPIO pin 7
 	elif post_data[76] == 'n':
 	        returnmessage = "You just entered the iBeacon area!"			
-                action = "./sendRF24Command 02"
+                #action = "02"
+		GPIO.output(7,True) ## Turn on GPIO pin 7
 
 	#Print action feedback
 	self.wfile.write("<html><body><h1>"+returnmessage+"</h1></body></html>")
 	print returnmessage
 
-	#Run shell command
-	def main():
-                os.system("../rf24/"+action)
-        if __name__=="__main__":
-                main()
+	#Run shell command to send rf24 command
+	#def main():
+        #        os.system("../rf24/sendRF24Command "+action)
+        #if __name__=="__main__":
+        #        main()
 
 def run(server_class=HTTPServer, handler_class=S, port=4050):
     server_address = ('', port)
     httpd = server_class(server_address, handler_class)
     print 'Started iBeacon Smart Home Server'
+
+    GPIO.setmode(GPIO.BOARD) ## Use board pin numbering
+    GPIO.setup(7, GPIO.OUT) ## Setup GPIO Pin 7 to OUT
+    GPIO.setwarnings(False)
+
     httpd.serve_forever()
 
 if __name__ == "__main__":

@@ -8,8 +8,8 @@
 
 /**
  * Usage:
- * ./sendRF24Command {commandToSend}
- * example ./sendRF24Command 01
+ * ./sendRF24Command {nodeOfReceiver} {commandToSend}
+ * example ./sendRF24Command 00 01
  **/
 using namespace std;
 
@@ -30,20 +30,28 @@ RF24Network network(radio);
 const uint16_t this_node = 02;
 
 // Address of the other node
-const uint16_t mainLights = 00;
-int32_t cmdLights = 01; // default command is to toggle lights
+uint16_t nodeID = 22; // default nodeID to send command to
+int32_t cmd = 01; // default command is to toggle lights
 
 int main(int argc, char** argv) 
 {
 	// Shell argument action
-	int temp;
-	if (1==sscanf(argv[1], "%d", &temp))
+	int32_t temp1, temp2;
+	if (1==sscanf(argv[1], "%d", &temp1))
     	{
-		cmdLights = temp; // Ready  input command for sending
+		nodeID = temp1; // Ready  input command for sending
 	}
 	else {
    	       printf("Couldn't understand input!");
  	}
+        if (1==sscanf(argv[2], "%d", &temp2))
+        {
+                cmd = temp2; // Ready  input command for sending
+	}
+        else {
+               printf("Couldn't understand input!");
+        }
+
 
 	// Refer to RF24.h or nRF24L01 DS for settings
 	radio.begin();
@@ -55,19 +63,15 @@ int main(int argc, char** argv)
 	radio.setDataRate(RF24_250KBPS);
 	//radio.printDetails();
 	
-
 		network.update();
-
-    			printf("Sending ..");
-		        RF24NetworkHeader header(/*to node*/ mainLights);
-			bool ok = network.write(header,&cmdLights,sizeof(cmdLights));
+    		printf("Sending ..");
+		RF24NetworkHeader header(/*to node*/ nodeID);
+		bool ok = network.write(header,&cmd,sizeof(cmd));
 		        if (ok){
 		        	printf("ok.\n\n");
 		        }else{ 
       				printf("failed.\n");
   			}
-
 	return 0;
-
 }
 

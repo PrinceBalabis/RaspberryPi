@@ -14,7 +14,7 @@ Usage::
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import SocketServer
 #import os ## Import library to run shell commands
-import RPi.GPIO as GPIO ## Import GPIO library
+#import RPi.GPIO as GPIO ## Import GPIO library
 
 class S(BaseHTTPRequestHandler):
     def _set_headers(self):
@@ -40,11 +40,16 @@ class S(BaseHTTPRequestHandler):
 	if post_data[76] == 'x':
                 returnmessage = "You just exited the iBeacon area!"	
 		#action = "03"
-		GPIO.output(7,False) ## Turn off GPIO pin 7
+#		GPIO.output(7,False) ## Turn off GPIO pin 7
+                log = open("log.txt", "wb")
+                log.write( "0");
 	elif post_data[76] == 'n':
 	        returnmessage = "You just entered the iBeacon area!"			
                 #action = "02"
-		GPIO.output(7,True) ## Turn on GPIO pin 7
+#		GPIO.output(7,True) ## Turn on GPIO pin 7
+                log = open("log.txt", "wb")
+                log.write( "1");
+
 
 	#Print action feedback
 	self.wfile.write("<html><body><h1>"+returnmessage+"</h1></body></html>")
@@ -61,9 +66,9 @@ def run(server_class=HTTPServer, handler_class=S, port=4050):
     httpd = server_class(server_address, handler_class)
     print 'Started iBeacon Smart Home Server'
 
-    GPIO.setmode(GPIO.BOARD) ## Use board pin numbering
-    GPIO.setup(7, GPIO.OUT) ## Setup GPIO Pin 7 to OUT
-    GPIO.setwarnings(False)
+#    GPIO.setmode(GPIO.BOARD) ## Use board pin numbering
+#    GPIO.setup(7, GPIO.OUT) ## Setup GPIO Pin 7 to OUT
+#    GPIO.setwarnings(False)
 
     httpd.serve_forever()
 

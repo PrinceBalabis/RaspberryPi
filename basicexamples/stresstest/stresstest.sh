@@ -1,7 +1,6 @@
 #!/bin/bash
 #Simple stress test for system. If it survives this, it's probably stable.
 #Free software, GPL2+
-#From http://elinux.org/RPiconfig#Overclock_stability_test
 
 echo "Testing overclock stability..."
 
@@ -11,7 +10,7 @@ nice yes >/dev/null &
 #Read the entire SD card 10x. Tests RAM and I/O
 for i in `seq 1 10`; do echo reading: $i; sudo dd if=/dev/mmcblk0 of=/dev/null bs=4M; done
 
-#Writes 512 MB test file,  10x.
+#Writes 512 MB test file, 10x.
 for i in `seq 1 10`; do echo writing: $i; dd if=/dev/zero of=deleteme.dat bs=1M count=512; sync; done
 
 #Clean up
